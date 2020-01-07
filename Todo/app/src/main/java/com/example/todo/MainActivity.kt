@@ -1,12 +1,15 @@
 package com.example.todo
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-
+import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
+import com.example.todo.model.DataManager
+import com.example.todo.model.ITEM_POSITION
+import com.example.todo.model.Todo
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,10 +18,25 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        spinner.adapter = ArrayAdapter<Todo>(
+            this,
+            android.R.layout.simple_spinner_item,
+            DataManager.todoItems.values.toList()
+        ).also {
+            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
+
+        displayTodo(intent.getIntExtra(ITEM_POSITION, -1))
+    }
+
+    private fun displayTodo(position: Int) {
+        if (position < 0) return
+
+        val (todo, title, text) = DataManager.detailItems[position]
+        textTitle.setText(title)
+        textText.setText(text)
+
+        spinner.setSelection(DataManager.todoItems.values.indexOf(todo))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
