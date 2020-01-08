@@ -13,6 +13,8 @@ import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private var notePosition = -1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -26,7 +28,8 @@ class MainActivity : AppCompatActivity() {
             it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
 
-        displayTodo(intent.getIntExtra(ITEM_POSITION, -1))
+        notePosition = intent.getIntExtra(ITEM_POSITION, -1)
+        displayTodo(notePosition)
     }
 
     private fun displayTodo(position: Int) {
@@ -51,7 +54,26 @@ class MainActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> true
+            R.id.action_next -> {
+                moveNext()
+                return true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun moveNext() {
+        displayTodo(++notePosition)
+        invalidateOptionsMenu()
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        if (notePosition >= DataManager.detailItems.lastIndex) {
+            val item = menu?.findItem(R.id.action_next)
+            item?.setIcon(R.drawable.ic_block_white_24dp)
+            item?.isEnabled = false
+        }
+
+        return super.onPrepareOptionsMenu(menu)
     }
 }
