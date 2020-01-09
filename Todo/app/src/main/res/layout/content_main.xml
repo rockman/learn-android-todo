@@ -20,19 +20,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/textTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="@string/title"
-        android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="@+id/spinner"
-        app:layout_constraintStart_toStartOf="@+id/spinner"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
-
-    <EditText
         android:id="@+id/textText"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -44,8 +31,19 @@
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/textTitle"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/textTitle"
-        app:layout_constraintTop_toBottomOf="@+id/textTitle"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textTitle" />
+
+    <EditText
+        android:id="@+id/textTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:editable="false"
+        android:ems="10"
+        android:hint="@string/title"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/spinner"
+        app:layout_constraintStart_toStartOf="@+id/spinner"
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
 </androidx.constraintlayout.widget.ConstraintLayout>

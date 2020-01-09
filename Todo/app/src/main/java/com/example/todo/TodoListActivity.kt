@@ -31,4 +31,9 @@ class TodoListActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        listTodo.invalidateViews()
+        super.onResume()
+    }
+
 }

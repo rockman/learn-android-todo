@@ -53,7 +53,6 @@ class MainActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
             R.id.action_next -> {
                 moveNext()
                 return true
@@ -76,4 +75,13 @@ class MainActivity : AppCompatActivity() {
 
         return super.onPrepareOptionsMenu(menu)
     }
+
+    override fun onPause() {
+        with(DataManager.detailItems[notePosition]) {
+            this.text = textText.text.toString()
+            this.todo = spinner.selectedItem as Todo
+        }
+        super.onPause()
+    }
+
 }

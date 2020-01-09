@@ -8,7 +8,7 @@ data class Todo(val todoId: String, val title: String) {
     }
 }
 
-data class Detail(val todo: Todo, val title: String, val text: String)
+data class Detail(var todo: Todo, val title: String, var text: String)
 
 object DataManager {
 
