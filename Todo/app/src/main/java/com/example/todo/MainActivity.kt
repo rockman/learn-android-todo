@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.example.todo.model.DataManager
+import com.example.todo.model.Detail
 import com.example.todo.model.ITEM_POSITION
 import com.example.todo.model.Todo
 import kotlinx.android.synthetic.main.activity_main.*
@@ -13,7 +14,7 @@ import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private var notePosition = -1
+    private var detailPosition = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,8 +29,10 @@ class MainActivity : AppCompatActivity() {
             it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
 
-        notePosition = intent.getIntExtra(ITEM_POSITION, -1)
-        displayTodo(notePosition)
+        detailPosition = savedInstanceState?.getInt(ITEM_POSITION, -1) ?:
+            intent.getIntExtra(ITEM_POSITION, -1)
+
+        displayTodo(detailPosition)
     }
 
     private fun displayTodo(position: Int) {
@@ -62,12 +65,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun moveNext() {
-        displayTodo(++notePosition)
+        displayTodo(++detailPosition)
         invalidateOptionsMenu()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        if (notePosition >= DataManager.detailItems.lastIndex) {
+        if (detailPosition >= DataManager.detailItems.lastIndex) {
             val item = menu?.findItem(R.id.action_next)
             item?.setIcon(R.drawable.ic_block_white_24dp)
             item?.isEnabled = false
@@ -77,11 +80,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        with(DataManager.detailItems[notePosition]) {
+        if (detailPosition == -1) {
+            DataManager.detailItems.add(Detail(
+                todo = spinner.selectedItem as Todo,
+                title = textTitle.text.toString(),
+                text = textText.text.toString()
+            ))
+            detailPosition = DataManager.detailItems.lastIndex
+        }
+
+        with(DataManager.detailItems[detailPosition]) {
             this.text = textText.text.toString()
             this.todo = spinner.selectedItem as Todo
         }
         super.onPause()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(ITEM_POSITION, detailPosition)
     }
 
 }

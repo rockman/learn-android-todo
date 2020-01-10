@@ -39,7 +39,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:editable="false"
         android:ems="10"
         android:hint="@string/title"
         android:inputType="textPersonName"
